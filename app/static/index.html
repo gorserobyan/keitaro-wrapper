@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Keitaro wrapper</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Keitaro<span>wrapper</span></div>
+    <nav>
+      <a href="#/new" data-nav="new">Новая кампания</a>
+      <a href="#/campaigns" data-nav="campaigns">Кампании</a>
+    </nav>
+  </header>
+
+  <main id="view"></main>
+  <div id="toast" class="toast" hidden></div>
+
+  <!-- ===== Create campaign ===== -->
+  <template id="tpl-new">
+    <section class="card narrow">
+      <h1>Новая кампания</h1>
+      <form id="create-form" autocomplete="off">
+        <label class="field">
+          <span>Название</span>
+          <input name="name" required maxlength="200" placeholder="имя кампании">
+        </label>
+
+        <div class="field">
+          <span>Гео</span>
+          <div class="chips-input" id="geo-box">
+            <div class="chips" id="geo-chips"></div>
+            <input id="geo-input" placeholder="MX, AU, RO…" list="countries">
+          </div>
+          <datalist id="countries"></datalist>
+          <small class="muted">Посетители из этих стран уйдут на <b class="redirect-url">google.com</b> (поток 1)</small>
+        </div>
+
+        <div class="field">
+          <span>Оффер</span>
+          <div class="picker" id="offer-picker">
+            <input id="offer-search" placeholder="поиск по офферам: имя или ID">
+            <div class="picker-list" hidden></div>
+          </div>
+          <div class="selected-offer muted" id="selected-offer">Оффер не выбран</div>
+          <small class="muted">Остальной трафик уйдёт на этот оффер (поток 2)</small>
+        </div>
+
+        <div class="defaults muted" id="defaults">Загрузка настроек…</div>
+
+        <button class="btn primary wide" type="submit">Create</button>
+        <div class="error" id="create-error" hidden></div>
+      </form>
+    </section>
+    <section class="card narrow" id="create-result" hidden></section>
+  </template>
+
+  <!-- ===== Campaign list ===== -->
+  <template id="tpl-campaigns">
+    <section class="card">
+      <div class="row-between">
+        <h1>Кампании</h1>
+        <input id="campaign-filter" class="search" placeholder="Фильтр по имени или ID">
+      </div>
+      <table class="grid">
+        <thead><tr><th class="num">ID</th><th>Название</th><th>Alias</th><th>Статус</th><th></th></tr></thead>
+        <tbody id="campaign-rows"><tr><td colspan="5" class="muted">Загрузка…</td></tr></tbody>
+      </table>
+    </section>
+  </template>
+
+  <!-- ===== Campaign editor ===== -->
+  <template id="tpl-editor">
+    <section class="card">
+      <div class="row-between">
+        <div>
+          <a href="#/campaigns" class="muted">← Кампании</a>
+          <h1 id="ed-title">Кампания</h1>
+          <div class="muted" id="ed-meta"></div>
+        </div>
+        <div class="actions">
+          <button class="btn" id="ed-reload">Обновить</button>
+          <a class="btn" id="ed-admin" target="_blank" rel="noopener">Открыть в Keitaro</a>
+        </div>
+      </div>
+    </section>
+    <div id="ed-streams"></div>
+    <section class="card">
+      <h2>История изменений</h2>
+      <ul class="history" id="ed-history"></ul>
+    </section>
+  </template>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
